@@ -10,7 +10,7 @@
     "frontend": "cd frontend && npm start",
     "backend": "nodemon index.js",
     "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
-    "start": "nodemon index.js"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
