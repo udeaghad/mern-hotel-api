@@ -12,7 +12,7 @@ import cookieParser from 'cookie-parser';
 
 const app = express();
 dotenv.config();
-app.use(cors( {credentials: true, origin: "https://booooka-hotel-app.netlify.app/"} ));
+app.use(cors( {credentials: true, origin: "https://booooka-hotel-app.netlify.app"} ));
 app.use(express.json());
 
 //connect to database
