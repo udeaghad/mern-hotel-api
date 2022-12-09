@@ -6,9 +6,14 @@ import authRoute from "./routes/auth.js";
 import usersRoute from "./routes/users.js";
 import hotelsRoute from "./routes/hotels.js";
 import roomsRoute from "./routes/rooms.js";
-import reservationsRoute from "./routes/reservation.js"
+import reservationsRoute from "./routes/reservation.js";
 import cookieParser from 'cookie-parser';
-// import multer from 'multer';
+import swaggerUi from 'swagger-ui-express';
+import fs from 'fs';
+
+const swaggerDocument = JSON.parse(fs.readFileSync('./swagger.json', 'utf8'));
+
+
 
 const app = express();
 dotenv.config();
@@ -62,6 +67,9 @@ app.use((error, req, res, next) => {
     stack: error.stack
   })
 })
+
+//swagger
+app.use('/api/v1/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 
 app.listen(5000, () =>{
