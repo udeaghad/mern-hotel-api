@@ -9,15 +9,14 @@ import roomsRoute from "./routes/rooms.js";
 import reservationsRoute from "./routes/reservation.js";
 import cookieParser from 'cookie-parser';
 import swaggerUi from 'swagger-ui-express';
-import fs from 'fs';
-
-const swaggerDocument = JSON.parse(fs.readFileSync('./swagger.json', 'utf8'));
-
+import YAML from 'yamljs';
+// import swaggerJSDoc from "swagger-jsdoc";
 
 
 const app = express();
 dotenv.config();
-app.use(cors( {credentials: true, origin: "https://booooka-hotel-app.netlify.app"} ));
+// app.use(cors( {credentials: true, origin: "https://booooka-hotel-app.netlify.app"} ));
+app.use(cors({credentials: true, origin: "http://localhost:3000"}));
 app.use(express.json());
 
 //connect to database
@@ -25,7 +24,7 @@ const connect = async () => {
   try {
     await mongoose.connect(process.env.MONGO);
     console.log("Connected to MongoDB");
-   
+    
   } catch (error) {
     console.error(error.message)
   }
@@ -45,9 +44,9 @@ app.use(cookieParser())
 
 //add route entry point
 
-// app.get('/api/v1/', (req,res) => {
-//   res.send("Hello world")
-// })
+app.get('/api/v1/', (req,res) => {
+  res.send("Hello world")
+})
 
 
 app.use("/api/v1/auths", authRoute);
@@ -68,8 +67,45 @@ app.use((error, req, res, next) => {
   })
 })
 
-//swagger
-app.use('/api/v1/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+// swagger
+// const swaggerDefinition = {
+//   openapi: '3.0.0',
+//   info: {
+//     title: 'Booooka Hotel API',
+//     version: '1.0.0',
+//     description: "Booooka Hotel API Documentation",
+//     licence: {
+//       name: 'MIT',
+//       url: 'https://opensource.org/licenses/MIT'
+//     },
+
+//     contact: {
+//       name: 'Booooka Hotel',
+//       url: 'https://booooka-hotel-app.netlify.app',
+//     }
+//   },
+//   servers: [
+//     {
+//       url: 'http://localhost:5000/api/v1',
+//       description: 'Local server'
+//     },
+//     {
+//       url: 'https://booooka-api.onrender.com/api/v1',
+//       description: 'Production server'
+//     }
+//   ]
+// };
+
+// const options= {
+//   swaggerDefinition,
+//   apis: ['./routes/*.js']
+// }
+
+// const swaggerDocs = swaggerJSDoc(options);
+const swaggerDocument = YAML.load('./swagger.yaml');
+// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 
 app.listen(5000, () =>{

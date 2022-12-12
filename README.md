@@ -31,7 +31,7 @@ To get a local copy up and running follow these simple steps.
 - Make your way to the correct directory by running this command:
 - `$ cd mern-hotel-frontend`
 - Run `npm install`
-- Run `npm start`
+- Run `npm run backend`
 
 
 # Authors

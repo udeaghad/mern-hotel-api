@@ -12,8 +12,8 @@ const HotelSchema = new Schema({
     required: true
   },
   photos: {
-    image: { data: Buffer, contentType: String },
-    
+    type: String,
+    required: true    
   },
   
   cheapest_price: {
@@ -43,6 +43,7 @@ const HotelSchema = new Schema({
     type: String,
    },
   
-});
+}, 
+{timestamps: true});
 
 export default mongoose.model("Hotel", HotelSchema);

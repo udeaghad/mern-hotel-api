@@ -1,33 +1,41 @@
 import Room from "../models/Room.js";
 import Hotel from "../models/Hotel.js";
-import fs from "fs"
+import cloudinary from "../utils/cloudinary.js"
+
 // import { createError } from "../utils/createError.js";
 
 export const createRoom = async(req, res, next) => {
-  
+     
   const hotelId = req.params.hotelId;
-  const newRoom = new Room({
-    ...req.body,
-    photos: {
-       data: fs.readFileSync(`images/${req.file.filename}`),
-       contentType: `images/${req.file.mimetype.split("/")[1]}`
-    }
-  })
 
+  //upload image to cloudnary
   try {
-      const savedRoom = await newRoom.save();  
-//Update room field in hotel model
-      try {
-        await Hotel.findByIdAndUpdate(hotelId, {
-          $push: {rooms: savedRoom}
+    if(req.body.photos){
+      const img = await cloudinary.uploader.upload(req.body.photos, {
+        upload_preset: "hotel-images"
+      })
+     
+      if(img){
+        const newRoom = new Room({
+          ...req.body,
+          photos: img.url
         })
-      }catch(error){
-        next(error)
+
+        const savedRoom = await newRoom.save();
+        //Update room field in hotel model
+        try {
+          await Hotel.findByIdAndUpdate(hotelId, {
+            $push: {rooms: savedRoom}
+          })
+        }catch(error){
+          next(error)
+        }
+        res.status(200).json({room: savedRoom, message: "Room has been created successfully"})
       }
-   res.status(200).json({room: savedRoom, message: "Room has been created successfully"})
+    }
   } catch (error) {
-    next(error)
-  }
+    next(error)    
+  }  
 }
 
 export const updateRoom = async(req, res, next) => {

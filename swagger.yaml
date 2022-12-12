@@ -1,0 +1,316 @@
+swagger: "2.0"
+info:
+  title: Hotel Reservation API
+  description: This is server for hotel reservation
+  version: 1.0.0
+  licence:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  servers:
+    - url: http://localhost:5000
+      description: Local server
+    - url: https://booooka-api.onrender.com
+      description: Production server
+  contact:
+    name: Dozie Udeagha
+    email: dozie.udeagha@gmail.com
+
+schemes: [http, https]
+basePath: /api/v1
+paths:
+  /hotels:
+    get:
+      summary: Get all hotels
+      description: Retrieve the list of all hotels
+      responses:
+        200:
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Hotel'
+        400:
+          description: Bad Request
+
+        500:
+          description: Internal Server Error
+
+    post:
+      summary: Create a hotel
+      description: Create a hotel
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: hotel
+          in: body
+          description: Hotel object
+          required: true
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Name of the hotel
+                required: true
+              address:
+                type: string
+                description: Address of the hotel
+                required: true
+              city:
+                type: string
+                description: City of the hotel
+                required: true
+              photos:
+                type: string
+                description: Photos of the hotel
+                required: true
+              desc:
+                type: string
+                description: Description of facilities at the hotel
+                required: true
+              cheapest_price:
+                type: number
+                description: Cheapest price of room at the hotel
+                required: true  
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/Hotel'
+        400:
+          description: Bad Request
+
+        500:
+          description: Internal Server Error
+
+  /hotels/{id}:
+    get:
+      summary: Get a hotel
+      description: Retrieve a hotel
+      parameters:
+        - name: id
+          in: path
+          description: ID of the hotel
+          required: true
+          type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/Hotel'
+        400:
+          description: Bad Request
+
+        500:
+          description: Internal Server Error
+    
+    put:
+      summary: Update a hotel
+      description: Update a hotel
+      parameters:
+        - name: id
+          in: path
+          description: ID of the hotel
+          required: true
+          type: string
+        - name: hotel
+          in: body
+          description: Hotel object
+          required: true
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Name of the hotel
+                required: true
+              address:
+                type: string
+                description: Address of the hotel
+                required: true
+              city:
+                type: string
+                description: City of the hotel
+                required: true
+              photos:
+                type: string
+                description: Photos of the hotel
+                required: true
+              desc:
+                type: string
+                description: Description of facilities at the hotel
+                required: true
+              cheapest_price:
+                type: number
+                description: Cheapest price of room at the hotel
+                required: true  
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/Hotel'
+        400:
+          description: Bad Request
+
+        500:
+          description: Internal Server Error
+  
+    delete:
+      summary: Delete a hotel
+      description: Delete a hotel
+      parameters:
+        - name: id
+          in: path
+          description: ID of the hotel
+          required: true
+          type: string
+      responses:
+        200:
+          description: Success
+        400:
+          description: Bad Request
+
+        500:
+          description: Internal Server Error
+  /rooms:
+    get:
+      summary: Get all rooms
+      description: Retrieve the list of all rooms
+      responses:
+        200:
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Room'
+        400:
+          description: Bad Request
+
+        500:
+          description: Internal Server Error
+  
+  /rooms/{hotelId}:
+    post:
+      summary: Create a room
+      description: Create a room
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: hotelId
+          in: path
+          description: ID of the hotel
+          required: true
+        - name: room
+          in: body
+          description: Room object
+          required: true        
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+                description: Name of the room
+                required: true
+              price:
+                type: number
+                description: Price of the room
+                required: true
+              desc:
+                type: string
+                description: Description of the room
+                required: true
+              photos:
+                type: string
+                description: Photos of the room
+                required: true
+              maxPeople:
+                type: number
+                description: Maximum number of people allowed in the room
+                required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/Room'
+        400:
+          description: Bad Request
+
+        500:
+          description: Internal Server Error
+ 
+  
+definitions:
+  Hotel:
+    type: object
+    properties:
+      _id:
+        type: string
+        description: Unique identifier for the hotel
+      name:
+        type: string
+        description: Name of the hotel
+        required: true
+      address:
+        type: string
+        description: Address of the hotel
+        required: true
+      city:
+        type: string
+        description: City of the hotel
+        required: true
+      photos:
+        type: string
+        description: Photos of the hotel
+        required: true
+      desc:
+        type: string
+        description: Description of facilities at the hotel
+        required: true
+      cheapest_price:
+        type: number
+        description: Cheapest price room at the hotel
+        required: true
+      rating:
+        type: number
+        description: Rating of the hotel
+        default: 0
+      rooms:
+        type: array
+        items:
+          $ref: '#/definitions/Room'
+        description: Rooms at the hotel
+      featured:
+        type: boolean
+        description: Featured hotel
+        default: false
+  Room:
+    type: object
+    properties:
+      _id:
+        type: string
+        description: Unique identifier for the room
+      title:
+        type: string
+        description: Name of the room
+        required: true
+      price:
+        type: number
+        description: Price of the room
+        required: true
+      desc:
+        type: string
+        description: Description of the room
+        required: true
+      photos:
+        type: string
+        description: Photos of the room
+        required: true
+      maxPeople:
+        type: number
+        description: Maximum number of people allowed in the room
+        required: true          
+          
