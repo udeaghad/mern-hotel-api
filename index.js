@@ -15,8 +15,8 @@ import YAML from 'yamljs';
 
 const app = express();
 dotenv.config();
-// app.use(cors( {credentials: true, origin: "https://booooka-hotel-app.netlify.app"} ));
-app.use(cors({credentials: true, origin: "http://localhost:3000"}));
+app.use(cors( {credentials: true, origin: "https://booooka-hotel-app.netlify.app"} ));
+// app.use(cors({credentials: true, origin: "http://localhost:3000"}));
 app.use(express.json());
 
 //connect to database
@@ -67,43 +67,7 @@ app.use((error, req, res, next) => {
   })
 })
 
-// swagger
-// const swaggerDefinition = {
-//   openapi: '3.0.0',
-//   info: {
-//     title: 'Booooka Hotel API',
-//     version: '1.0.0',
-//     description: "Booooka Hotel API Documentation",
-//     licence: {
-//       name: 'MIT',
-//       url: 'https://opensource.org/licenses/MIT'
-//     },
-
-//     contact: {
-//       name: 'Booooka Hotel',
-//       url: 'https://booooka-hotel-app.netlify.app',
-//     }
-//   },
-//   servers: [
-//     {
-//       url: 'http://localhost:5000/api/v1',
-//       description: 'Local server'
-//     },
-//     {
-//       url: 'https://booooka-api.onrender.com/api/v1',
-//       description: 'Production server'
-//     }
-//   ]
-// };
-
-// const options= {
-//   swaggerDefinition,
-//   apis: ['./routes/*.js']
-// }
-
-// const swaggerDocs = swaggerJSDoc(options);
 const swaggerDocument = YAML.load('./swagger.yaml');
-// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

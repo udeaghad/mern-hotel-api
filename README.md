@@ -5,6 +5,7 @@ This application, even though it is WIP, is a web application to also find your 
 ## Project Documentation 📄
 - [Live Demo](https://booooka-hotel-app.netlify.app)
 - [Front End Code](https://github.com/udeaghad/mern-hotel-frontend)
+- [API  Documentation](https://booooka-hotel-app.netlify.app/api-docs)
 
 
 
