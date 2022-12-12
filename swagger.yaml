@@ -241,6 +241,115 @@ paths:
 
         500:
           description: Internal Server Error
+
+  /rooms/{roomId}:
+    put:
+      summary: Update a room
+      description: Update a room
+      parameters:
+        - name: roomId
+          in: path
+          description: ID of the room
+          required: true
+        - name: room
+          in: body
+          description: Room object
+          required: true
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+                description: Name of the room
+                required: true
+              price:
+                type: number
+                description: Price of the room
+                required: true
+              desc:
+                type: string
+                description: Description of the room
+                required: true
+              photos:
+                type: string
+                description: Photos of the room
+                required: true
+              maxPeople:
+                type: number
+                description: Maximum number of people allowed in the room
+                required: true
+              hotelId:
+                type: string
+                description: ID of the hotel
+                required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/Room'
+        400:
+          description: Bad Request
+
+        500:
+          description: Internal Server Error
+
+    get:
+      summary: Get a room
+      description: Retrieve a room
+      parameters:
+        - name: roomId
+          in: path
+          description: ID of the room
+          required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/Room'
+        400:
+          description: Bad Request
+
+        500:
+          description: Internal Server Error
+
+    delete:
+      summary: Delete a room
+      description: Delete a room
+      parameters:
+        - name: roomId
+          in: path
+          description: ID of the room
+          required: true
+      responses:
+        200:
+          description: Success
+        400:
+          description: Bad Request
+
+        500:
+          description: Internal Server Error
+  
+  /reservations/{userId}:
+    get:
+      summary: Get all reservations
+      description: Retrieve the list of all reservations
+      parameters:
+        - name: userId
+          in: path
+          description: ID of the user
+          required: true
+      responses:
+        200:
+          description: Success
+          schema: 
+            type: array   
+            items:        
+              $ref: '#/definitions/Reservation'
+        400:
+          description: Bad Request
+
+        500:
+          description: Internal Server Error
  
   
 definitions:
@@ -312,5 +421,18 @@ definitions:
       maxPeople:
         type: number
         description: Maximum number of people allowed in the room
-        required: true          
-          
+        required: true 
+
+  Reservation:
+    type: object
+    properties:
+      _id:
+        type: string
+        description: Unique identifier for the reservation
+      hotelId:
+        $ref: '#/definitions/Hotel'
+        description: Hotel Details
+      roomId:
+        $ref: '#/definitions/Room'
+        description: Room Details          
+      
