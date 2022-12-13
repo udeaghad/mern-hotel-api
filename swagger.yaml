@@ -350,6 +350,282 @@ paths:
 
         500:
           description: Internal Server Error
+
+  /reservations:
+    post:
+      summary: Create a reservation
+      description: Create a reservation
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: reservation
+          in: body
+          description: Reservation object
+          required: true
+          schema:
+            type: object
+            properties:
+              hotelId:
+                type: string
+                description: ID of the hotel
+                required: true
+              roomId:
+                type: string
+                description: ID of the room
+                required: true
+              date:
+                type: string
+                description: Date of the reservation
+                required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/Reservation'
+        400:
+          description: Bad Request
+
+        500:
+          description: Internal Server Error
+      
+  /reservations/{id}:
+    put:
+      summary: Update a reservation
+      description: Update a reservation
+      parameters:
+        - name: id
+          in: path
+          description: ID of the reservation
+          required: true
+        - name: reservation
+          in: body
+          description: Reservation object
+          required: true
+          schema:
+            type: object
+            properties:
+              hotelId:
+                type: string
+                description: ID of the hotel
+                required: true
+              roomId:
+                type: string
+                description: ID of the room
+                required: true
+              date:
+                type: string
+                description: Date of the reservation
+                required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/Reservation'
+        400:
+          description: Bad Request
+
+        500:
+          description: Internal Server Error
+  
+    delete:
+      summary: Delete a reservation
+      description: Delete a reservation
+      parameters:
+        - name: id
+          in: path
+          description: ID of the reservation
+          required: true
+      responses:
+        200:
+          description: Success
+        400:
+          description: Bad Request
+
+        500:
+          description: Internal Server Error
+
+  /auths/register:
+    post:
+      summary: Create a user
+      description: Create a user
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: user
+          in: body
+          description: User object
+          required: true
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+                description: Username of the user
+                required: true
+              email:
+                type: string
+                description: Email of the user
+                required: true
+              password:
+                type: string
+                description: Password of the user
+                required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/User'
+        400:
+          description: Bad Request
+
+        500:
+          description: Internal Server Error
+
+  /auths/login:
+    post:
+      summary: Login a user
+      description: Login a user
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: user
+          in: body
+          description: User object
+          required: true
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+                description: Username of the user
+                required: true
+              password:
+                type: string
+                description: Password of the user
+                required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/User'
+        400:
+          description: Bad Request
+
+        500:
+          description: Internal Server Error
+
+  /auths/logout:
+    post:
+      summary: Logout a user
+      description: Logout a user
+      responses:
+        200:
+          description: Success
+        400:
+          description: Bad Request
+
+        500:
+          description: Internal Server Error
+
+  /users:
+    get:
+      summary: Get all users
+      description: Retrieve the list of all users by admin
+      responses:
+        200:
+          description: Success
+          schema: 
+            type: array   
+            items:        
+              $ref: '#/definitions/User'
+        400:
+          description: Bad Request
+
+        500:
+          description: Internal Server Error
+
+  /users/{id}:
+    get:
+      summary: Get a user
+      description: Retrieve a user by admin
+      parameters:
+        - name: id
+          in: path
+          description: ID of the user
+          required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/User'
+        400:
+          description: Bad Request
+
+        500:
+          description: Internal Server Error
+
+    put:
+      summary: Update a user
+      description: Update a user by admin
+      parameters:
+        - name: id
+          in: path
+          description: ID of the user
+          required: true
+        - name: user
+          in: body
+          description: User object
+          required: true
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+                description: Username of the user
+                required: true
+              email:
+                type: string
+                description: Email of the user
+                required: true
+              password:
+                type: string
+                description: Password of the user
+                required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/User'
+        400:
+          description: Bad Request
+
+        500:
+          description: Internal Server Error
+
+    delete:
+      summary: Delete a user
+      description: Delete a user by admin
+      parameters:
+        - name: id
+          in: path
+          description: ID of the user
+          required: true
+      responses:
+        200:
+          description: Success
+        400:
+          description: Bad Request
+
+        500:
+          description: Internal Server Error
+
+      
  
   
 definitions:
@@ -434,5 +710,32 @@ definitions:
         description: Hotel Details
       roomId:
         $ref: '#/definitions/Room'
-        description: Room Details          
+        description: Room Details
+      date:
+        type: string
+        description: Date of the reservation
+        required: true  
+
+  User:
+    type: object
+    properties:
+      _id:
+        type: string
+        description: Unique identifier for the user
+      username:
+        type: string
+        description: Username of the user
+        required: true
+      email:
+        type: string
+        description: Email of the user
+        required: true
+      password:
+        type: string
+        description: Password of the user
+        required: true
+      isAdmin:
+        type: boolean
+        description: Admin user
+        default: false 
       

@@ -3,7 +3,8 @@ import User from "../models/User.js";
 export const updateUser = async(req, res, next) => {
   try {
     const updatedUser = await User.findByIdAndUpdate(req.params.id, {$set: req.body}, {new: true})
-    res.status(200).json(updatedUser)
+    const {password, ...others} = updatedUser._doc;
+    res.status(200).json(others)
   } catch (error) {
     next(error)
   }  
@@ -21,7 +22,8 @@ export const deleteUser = async(req, res, next) => {
 export const getUser = async(req, res, next) => {
   try {
     const user = await User.findById(req.params.id);
-    res.status(200).json(user)
+    const {password, ...others} = user._doc;
+    res.status(200).json(others)
   } catch (error) {
     next(error)
   }  
@@ -35,7 +37,13 @@ export const getAllUsers = async(req, res, next) => {
   // }
   try {
     const allUsers = await User.find();
-    res.status(200).json(allUsers)
+
+    const allUserDetails = allUsers.map(user => {  
+      const {password, ...others} = user._doc;
+      return others
+    })
+
+    res.status(200).json(allUserDetails)
   } catch (error) {
     next(error)
   }  

@@ -15,8 +15,8 @@ import YAML from 'yamljs';
 
 const app = express();
 dotenv.config();
-app.use(cors( {credentials: true, origin: "https://booooka-hotel-app.netlify.app"} ));
-// app.use(cors({credentials: true, origin: "http://localhost:3000"}));
+// app.use(cors( {credentials: true, origin: "https://booooka-hotel-app.netlify.app"} ));
+app.use(cors({credentials: true, origin: "http://localhost:3000"}));
 app.use(express.json());
 
 //connect to database
