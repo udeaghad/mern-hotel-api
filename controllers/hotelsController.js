@@ -4,7 +4,7 @@ import cloudinary from "../utils/cloudinary.js"
 // import { createError } from "../utils/createError.js";
 
 export const createHotel = async(req, res, next) => {
-  //upload image to cloudnary
+  //upload image to cloudnaryconst
    
   try {
       if(req.body.photos){
