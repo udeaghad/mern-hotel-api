@@ -18,7 +18,8 @@ export const createRoom = async(req, res, next) => {
       if(img){
         const newRoom = new Room({
           ...req.body,
-          photos: img.url
+          photos: img.url,
+          hotel: hotelId
         })
 
         const savedRoom = await newRoom.save();

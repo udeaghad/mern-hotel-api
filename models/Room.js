@@ -24,6 +24,11 @@ const RoomSchema = new Schema({
   photos: {
     type: String,
     required: true,
+  },
+  hotel: {
+    type: Schema.Types.ObjectId,
+    ref: "Hotel",
+    required: true
   }    
 },
 {timestamps: true}
