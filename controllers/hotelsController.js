@@ -1,5 +1,6 @@
 import Hotel from "../models/Hotel.js";
-import Room from "../models/Room.js"
+import Room from "../models/Room.js";
+import Reservation from "../models/Reservation.js";
 import fs from "fs";
 import cloudinary from "../utils/cloudinary.js"
 // import { createError } from "../utils/createError.js";
@@ -42,7 +43,8 @@ export const deleteHotel = async(req, res, next) => {
   try {
     await Hotel.findByIdAndDelete(req.params.id)
     await Room.deleteMany({hotel: req.params.id})
-    
+    await Reservation.deleteMany({hotel: req.params.id})
+
     res.status(200).json("Hotel has been deleted")
   } catch (error) {
     next(error)
