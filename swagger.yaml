@@ -15,7 +15,7 @@ info:
     name: Dozie Udeagha
     email: dozie.udeagha@gmail.com
 
-schemes: [http, https]
+schemes: [https, http]
 basePath: /api/v1
 paths:
   /hotels:
